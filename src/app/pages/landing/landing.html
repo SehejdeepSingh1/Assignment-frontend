@@ -1,0 +1,12 @@
+<h1>Devices</h1>
+<button (click)="loadDevices()">
+  Show Devices
+</button>
+<div *ngIf="showDevices">
+  <p>Total devices: {{ devices.length }}</p>
+  <ul>
+    <li *ngFor="let device of devices">
+      {{ device.deviceName }}
+    </li>
+  </ul>
+</div>
