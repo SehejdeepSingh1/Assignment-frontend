@@ -1,12 +1,93 @@
 <h1>Devices</h1>
-<button (click)="loadDevices()">
-  Show Devices
+<button (click)="loadDevices()">Load Devices</button>
+<button (click)="toggleForm()">
+
+  {{ showForm ? 'Cancel' : 'Create Device' }}
 </button>
-<div *ngIf="showDevices">
-  <p>Total devices: {{ devices.length }}</p>
-  <ul>
-    <li *ngFor="let device of devices">
-      {{ device.deviceName }}
-    </li>
-  </ul>
+<br /><br />
+<!-- Create Device Form -->
+<div *ngIf="showForm">
+  <h3>Create New Device</h3>
+  <input
+
+    type="text"
+
+    placeholder="Device Name"
+
+    [(ngModel)]="newDevice.deviceName"
+
+  /><br /><br />
+  <input
+
+    type="text"
+
+    placeholder="Part Number"
+
+    [(ngModel)]="newDevice.partNumber"
+
+  /><br /><br />
+  <input
+
+    type="text"
+
+    placeholder="Building Name"
+
+    [(ngModel)]="newDevice.buildingName"
+
+  /><br /><br />
+  <input
+
+    type="text"
+
+    placeholder="Device Type"
+
+    [(ngModel)]="newDevice.deviceType"
+
+  /><br /><br />
+  <input
+
+    type="number"
+
+    placeholder="Number Of Shelf Positions"
+
+    [(ngModel)]="newDevice.numberOfShelfPositions"
+
+  /><br /><br />
+  <button (click)="createDevice()">Submit</button>
 </div>
+<hr />
+<h2>Device List</h2>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Device Name</th>
+    <th>Part Number</th>
+    <th>Building Name</th>
+    <th>Device Type</th>
+    <th>Number of Shelf Positions</th>
+    <th>Action</th> <!-- ✅ New Column -->
+  </tr>
+  </thead>
+  <tbody>
+
+    @for (device of devices; track device.id) {
+      <tr>
+        <td>{{ device.deviceName }}</td>
+        <td>{{ device.partNumber }}</td>
+        <td>{{ device.buildingName }}</td>
+        <td>{{ device.deviceType }}</td>
+        <td>{{ device.numberOfShelfPositions }}</td>
+        <!-- ✅ New Button -->
+        <td>
+          <button
+
+            [routerLink]="['devices/',device.id,'shelves']">
+
+            Show Shelf Positions
+          </button>
+        </td>
+      </tr>
+
+    }
+  </tbody>
+</table>
