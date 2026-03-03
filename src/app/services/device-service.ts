@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {DeviceDefinition} from '../classes/device-definition';
+import { ShelfPosition } from '../classes/shelf-position';
 
 
 @Injectable({
@@ -25,7 +26,7 @@ export class DeviceService {
 
   getAllShelfPositions(deviceid: string) {
     console.log()
-    return this.http.get<any[]>(`${this.shelfpositionUrl}/device/${deviceid}`);
+    return this.http.get<ShelfPosition[]>(`${this.shelfpositionUrl}/device/${deviceid}`);
   }
 
   getDeviceById(id:string){

@@ -25,11 +25,11 @@ export class DeviceSummary{
   deviceid:string='';
   device: DeviceDefinition = new DeviceDefinition;
   updatedDevice:DeviceDefinition=new DeviceDefinition;
-  shelfPositions:any[]=[];
+  shelfPositions:ShelfPosition[]=[];
   selectedPositionId:string|null=null;
   enteredShelfId:string="";
   showUpdateForm:boolean=false;
-
+  message:string='';
   constructor(private route:ActivatedRoute,private deviceService:DeviceService,private shelfService:ShelfServices, private cdr:ChangeDetectorRef,private router:Router) {
   }
 
@@ -111,33 +111,28 @@ deleteDevice() {
   }
 }
 
-assignShelf(position:any){
+assignShelf(position:ShelfPosition){
   this.selectedPositionId=position.id;
   this.enteredShelfId='';
+  
 }
 
-submitShelf(position: any) {
-
+submitShelf(position: ShelfPosition) {
   if (!this.enteredShelfId) {
-
     alert("Please enter Shelf ID");
-
     return;
-
   }
 
   this.shelfService
-
     .assignShelf(this.enteredShelfId, position.id)
-
     .subscribe({
-
       next: (response) => {
         console.log(response);
         alert("Shelf assigned successfully");
         // reset UI
         this.selectedPositionId = null;
         this.enteredShelfId = '';
+        // position.isOccupied=true;
         // refresh shelf positions if needed
         this.loadShelfPositions();
       },

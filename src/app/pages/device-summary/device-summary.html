@@ -93,14 +93,20 @@
   @for (position of shelfPositions; track position.id) {
 <tr>
 <td>{{ position.id }}</td>
-<td>{{ position.deviceId }}</td>
+<td>{{ position.deviceid }}</td>
 <td>{{ position.positionNumber }}</td>
 <td>
 <!-- Show Add Shelf button -->
-<button *ngIf="selectedPositionId !== position.id"class="btn btn-success btn-sm"(click)="assignShelf(position)"> Add Shelf </button>
+
+<div *ngIf="position.isOccupied">
+  <span>
+    Shelf Position already filled
+  </span>
+</div>
+<button *ngIf="selectedPositionId !== position.id && !position.isOccupied"class="btn btn-success btn-sm"(click)="assignShelf(position)"> Add Shelf </button>
 
 <!-- Show input + submit when clicked -->
-<div *ngIf="selectedPositionId === position.id" class="d-flex gap-2">
+<div *ngIf="selectedPositionId === position.id && !position.isOccupied" class="d-flex gap-2">
 <input type="text" class="form-control form-control-sm"
 placeholder="Enter Shelf ID"
 [(ngModel)]="enteredShelfId">
@@ -115,6 +121,7 @@ class="btn btn-secondary btn-sm"
 Cancel
 </button>
 </div>
+
 </td>
 </tr>
 
