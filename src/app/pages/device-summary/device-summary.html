@@ -97,10 +97,8 @@
 <td>{{ position.positionNumber }}</td>
 <td>
 <!-- Show Add Shelf button -->
-<button *ngIf="selectedPositionId !== position.id"class="btn btn-success btn-sm"(click)="assignShelf(position)">
+<button *ngIf="selectedPositionId !== position.id"class="btn btn-success btn-sm"(click)="assignShelf(position)"> Add Shelf </button>
 
-          Add Shelf
-</button>
 <!-- Show input + submit when clicked -->
 <div *ngIf="selectedPositionId === position.id" class="d-flex gap-2">
 <input type="text" class="form-control form-control-sm"
