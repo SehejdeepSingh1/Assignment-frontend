@@ -68,25 +68,33 @@
 <!-- Shelves Table -->
 <div class="glass-card">
 <h2>Shelves</h2>
-<table>
-<thead>
+<table><thead>
 <tr>
 <th>ID</th>
 <th>Name</th>
 <th>Part</th>
+<th></th> <!-- Added column for button -->
 </tr>
 </thead>
 <tbody>
 
-        @for (shelf of shelves; track shelf.id) {
+@for (shelf of shelves; track shelf.id) {
 <tr>
 <td>{{ shelf.id }}</td>
 <td>{{ shelf.shelfName }}</td>
 <td>{{ shelf.partNumber }}</td>
+<td>
+<button 
+    class="btn small"
+    [routerLink]="['/shelves', shelf.id]">
+    View
+</button>
+</td>
 </tr>
 
-        }
+}
 </tbody>
+ 
 </table>
 </div>
 </div>

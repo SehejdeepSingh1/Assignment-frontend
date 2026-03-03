@@ -1,1 +1,29 @@
-<p>shelf-summary works!</p>
+<div class="shelf-container">
+    <h2 class="title">Shelf Management for {{shelfid}}</h2>
+    <!-- Buttons -->
+    <div class="button-section">
+        <button class="btn update-btn" (click)="openUpdateForm()">
+            Update Shelf
+        </button>
+        <button class="btn delete-btn" (click)="deleteDevice()">
+            Delete Shelf
+        </button>
+    </div>
+    <!-- Update Form -->
+    <div *ngIf="showUpdateForm" class="update-form">
+        <h3>Update Shelf Details</h3>
+        
+        <!-- Shelf Name -->
+        <input type="text" placeholder="Shelf Name" [(ngModel)]="updatedShelf.shelfName" class="input-field" />
+        <!-- Part Number -->
+        <input type="text" placeholder="Part Number" [(ngModel)]="updatedShelf.partNumber" class="input-field" />
+        <div class="form-buttons">
+            <button class="btn save-btn" (click)="updateShelf()">
+                Update
+            </button>
+            <button class="btn cancel-btn" (click)="closeUpdateForm()">
+                Cancel
+            </button>
+        </div>
+    </div>
+</div>

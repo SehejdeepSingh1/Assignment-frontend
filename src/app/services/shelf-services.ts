@@ -20,4 +20,12 @@ export class ShelfServices {
   assignShelf(shelfid:string,shelfPositionId:string){
     return this.http.post(`${this.shelfurl}/${shelfid}/assign/${shelfPositionId}`,{},{responseType:'text'});
   }
+
+  updateShelf(id:string,shelf:ShelfDefinition){
+    return this.http.put(`${this.shelfurl}/${id}`,shelf);
+  }
+
+  deleteShelf(id:string){
+    return this.http.delete(`${this.shelfurl}/${id}`);
+  }
 }
