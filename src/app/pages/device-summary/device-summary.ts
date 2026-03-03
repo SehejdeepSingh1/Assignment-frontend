@@ -21,7 +21,7 @@ import { ShelfServices } from '../../services/shelf-services';
   styleUrl: './device-summary.css',
   standalone: true
 })
-export class DeviceSummary {
+export class DeviceSummary{
   deviceid:string='';
   device: DeviceDefinition = new DeviceDefinition;
   updatedDevice:DeviceDefinition=new DeviceDefinition;
