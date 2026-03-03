@@ -20,9 +20,12 @@ import {RouterLink} from '@angular/router';
 })
 export class Landing{
   devices:DeviceDefinition[]=[];
+  shelves:ShelfDefinition[]=[];
   showDevices=false;
-  showForm=false;
-  public newDevice: DeviceDefinition = new DeviceDefinition()
+  showShelves=false;
+  showDeviceForm=false;
+  showShelfForm=false;
+  newDevice: DeviceDefinition = new DeviceDefinition()
   public newShelf:ShelfDefinition = new ShelfDefinition()
   constructor(private deviceService:DeviceService,
               private shelfService:ShelfServices) {
@@ -32,8 +35,9 @@ export class Landing{
     this.deviceService.createDevice(this.newDevice).subscribe({
       next:(response)=> {
         console.log("DeviceService saved to DB :", response);
+
         this.loadDevices();
-        this.showForm = false;
+        this.showDeviceForm = false;
         this.newDevice = {
           id:'',
           deviceName: '',
@@ -56,10 +60,17 @@ export class Landing{
     })
   }
 
+  loadShelves(){
+    this.shelfService.getAllShelves().subscribe(data =>{
+      this.shelves=data;
+      this.showDevices=true;
+    })
+  }
   createShelf(){
     this.shelfService.createShelf(this.newShelf).subscribe({
       next:(response)=>{
         console.log("Shelf Service saved to DB : ",response);
+        this.loadShelves();
         this.newShelf={
           id:'',
           shelfName:'',
@@ -68,7 +79,10 @@ export class Landing{
       }
     })
   }
-  toggleForm() {
-    this.showForm=!this.showForm;
+  toggleDeviceCreationForm() {
+    this.showDeviceForm=!this.showDeviceForm;
+  }
+  toggleShelfCreationForm() {
+    this.showShelfForm=!this.showShelfForm;
   }
 }

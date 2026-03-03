@@ -1,0 +1,198 @@
+/* Background */
+
+.dashboard {
+
+  min-height: 100vh;
+
+  padding: 40px;
+
+  font-family: 'Segoe UI', sans-serif;
+
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+
+  color: #ffffff;
+
+}
+
+/* Title */
+
+.page-title {
+
+  text-align: center;
+
+  font-size: 32px;
+
+  margin-bottom: 30px;
+
+  letter-spacing: 1px;
+
+}
+
+/* Buttons */
+
+.top-actions {
+
+  display: flex;
+
+  gap: 12px;
+
+  flex-wrap: wrap;
+
+  margin-bottom: 25px;
+
+}
+
+.btn {
+
+  padding: 10px 16px;
+
+  border-radius: 8px;
+
+  border: none;
+
+  cursor: pointer;
+
+  font-weight: 500;
+
+  transition: all 0.3s ease;
+
+}
+
+.btn:hover {
+
+  transform: translateY(-2px);
+
+}
+
+/* Button styles */
+
+.glow {
+
+  background: #00c6ff;
+
+  color: black;
+
+}
+
+.glow:hover {
+
+  box-shadow: 0 0 15px #00c6ff;
+
+}
+
+.success {
+
+  background: #00e676;
+
+  color: black;
+
+}
+
+.primary {
+
+  background: #2196f3;
+
+  color: white;
+
+}
+
+.small {
+
+  padding: 6px 12px;
+
+  font-size: 13px;
+
+  background: #673ab7;
+
+  color: white;
+
+}
+
+/* Glass card */
+
+.glass-card {
+
+  background: rgba(255, 255, 255, 0.08);
+
+  backdrop-filter: blur(10px);
+
+  padding: 25px;
+
+  border-radius: 14px;
+
+  margin-bottom: 30px;
+
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+}
+
+/* Forms */
+
+.form-grid {
+
+  display: grid;
+
+  gap: 15px;
+
+  margin-bottom: 20px;
+
+}
+
+input {
+
+  padding: 10px;
+
+  border-radius: 8px;
+
+  border: none;
+
+  outline: none;
+
+  background: rgba(255,255,255,0.2);
+
+  color: white;
+
+}
+
+input::placeholder {
+
+  color: #ddd;
+
+}
+
+/* Tables */
+
+table {
+
+  width: 100%;
+
+  border-collapse: collapse;
+
+  margin-top: 15px;
+
+}
+
+th {
+
+  text-align: left;
+
+  padding: 12px;
+
+  background: rgba(255,255,255,0.15);
+
+}
+
+td {
+
+  padding: 12px;
+
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+
+}
+
+tr:hover {
+
+  background: rgba(255,255,255,0.1);
+
+}
+ 

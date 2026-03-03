@@ -1,93 +1,93 @@
-<h1>Devices</h1>
-<button (click)="loadDevices()">Load Devices</button>
-<button (click)="toggleForm()">
+<div class="dashboard">
+<h1 class="page-title">Device Control Center</h1>
+<div class="top-actions">
+<button class="btn glow" (click)="loadDevices()">Load Devices</button>
+<button class="btn glow" (click)="loadShelves()">Load Shelves</button>
+<button class="btn success" (click)="toggleDeviceCreationForm()">
 
-  {{ showForm ? 'Cancel' : 'Create Device' }}
+      {{ showDeviceForm ? 'Cancel' : 'Create Device' }}
 </button>
-<br /><br />
-<!-- Create Device Form -->
-<div *ngIf="showForm">
-  <h3>Create New Device</h3>
-  <input
+<button class="btn success" (click)="toggleShelfCreationForm()">
 
-    type="text"
-
-    placeholder="Device Name"
-
-    [(ngModel)]="newDevice.deviceName"
-
-  /><br /><br />
-  <input
-
-    type="text"
-
-    placeholder="Part Number"
-
-    [(ngModel)]="newDevice.partNumber"
-
-  /><br /><br />
-  <input
-
-    type="text"
-
-    placeholder="Building Name"
-
-    [(ngModel)]="newDevice.buildingName"
-
-  /><br /><br />
-  <input
-
-    type="text"
-
-    placeholder="Device Type"
-
-    [(ngModel)]="newDevice.deviceType"
-
-  /><br /><br />
-  <input
-
-    type="number"
-
-    placeholder="Number Of Shelf Positions"
-
-    [(ngModel)]="newDevice.numberOfShelfPositions"
-
-  /><br /><br />
-  <button (click)="createDevice()">Submit</button>
+      {{ showShelfForm ? 'Cancel' : 'Create Shelf' }}
+</button>
 </div>
-<hr />
-<h2>Device List</h2>
-<table class="table table-striped">
-  <thead>
-  <tr>
-    <th>Device Name</th>
-    <th>Part Number</th>
-    <th>Building Name</th>
-    <th>Device Type</th>
-    <th>Number of Shelf Positions</th>
-    <th>Action</th> <!-- ✅ New Column -->
-  </tr>
-  </thead>
-  <tbody>
+<!-- Device Form -->
+<div class="glass-card" *ngIf="showDeviceForm">
+<h3>Create New Device</h3>
+<div class="form-grid">
+<input type="text" placeholder="Device Name" [(ngModel)]="newDevice.deviceName" />
+<input type="text" placeholder="Part Number" [(ngModel)]="newDevice.partNumber" />
+<input type="text" placeholder="Building Name" [(ngModel)]="newDevice.buildingName" />
+<input type="text" placeholder="Device Type" [(ngModel)]="newDevice.deviceType" />
+<input type="number" placeholder="Shelf Positions" [(ngModel)]="newDevice.numberOfShelfPositions" />
+</div>
+<button class="btn primary" (click)="createDevice()">Submit</button>
+</div>
+<!-- Shelf Form -->
+<div class="glass-card" *ngIf="showShelfForm">
+<h3>Create New Shelf</h3>
+<div class="form-grid">
+<input type="text" placeholder="Shelf Name" [(ngModel)]="newShelf.shelfName" />
+<input type="text" placeholder="Part Number" [(ngModel)]="newShelf.partNumber" />
+</div>
+<button class="btn primary" (click)="createShelf()">Submit</button>
+</div>
+<!-- Devices Table -->
+<div class="glass-card">
+<h2>Devices</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Part</th>
+<th>Building</th>
+<th>Type</th>
+<th>Shelves</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
 
-    @for (device of devices; track device.id) {
-      <tr>
-        <td>{{ device.deviceName }}</td>
-        <td>{{ device.partNumber }}</td>
-        <td>{{ device.buildingName }}</td>
-        <td>{{ device.deviceType }}</td>
-        <td>{{ device.numberOfShelfPositions }}</td>
-        <!-- ✅ New Button -->
-        <td>
-          <button
+        @for (device of devices; track device.id) {
+<tr>
+<td>{{ device.deviceName }}</td>
+<td>{{ device.partNumber }}</td>
+<td>{{ device.buildingName }}</td>
+<td>{{ device.deviceType }}</td>
+<td>{{ device.numberOfShelfPositions }}</td>
+<td>
+<button class="btn small" [routerLink]="['/devices', device.id, 'shelves']">View</button>
+</td>
+</tr>
 
-            [routerLink]="['devices/',device.id,'shelves']">
-
-            Show Shelf Positions
-          </button>
-        </td>
-      </tr>
-
-    }
-  </tbody>
+        }
+</tbody>
 </table>
+</div>
+<!-- Shelves Table -->
+<div class="glass-card">
+<h2>Shelves</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Part</th>
+</tr>
+</thead>
+<tbody>
+
+        @for (shelf of shelves; track shelf.id) {
+<tr>
+<td>{{ shelf.id }}</td>
+<td>{{ shelf.shelfName }}</td>
+<td>{{ shelf.partNumber }}</td>
+</tr>
+
+        }
+</tbody>
+</table>
+</div>
+</div>
+ 
