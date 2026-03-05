@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {DeviceService} from '../../services/device-service';
-import {NgForOf, NgIf} from '@angular/common';
+import {CommonModule, NgForOf, NgIf} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {ShelfDefinition} from '../../classes/shelf-definition';
 import {DeviceDefinition} from '../../classes/device-definition';
@@ -11,14 +11,16 @@ import {RouterLink} from '@angular/router';
   selector: 'app-landing',
   imports: [
     NgIf,
+    NgForOf,
     FormsModule,
+    CommonModule,
     RouterLink
   ],
   templateUrl: './landing.html',
   styleUrl: './landing.css',
   standalone: true
 })
-export class Landing{
+export class Landing implements OnInit{
   devices:DeviceDefinition[]=[];
   shelves:ShelfDefinition[]=[];
   showDevices=false;
@@ -28,9 +30,20 @@ export class Landing{
   newDevice: DeviceDefinition = new DeviceDefinition()
   public newShelf:ShelfDefinition = new ShelfDefinition()
   constructor(private deviceService:DeviceService,
-              private shelfService:ShelfServices) {
+              private shelfService:ShelfServices,
+            private cdr:ChangeDetectorRef) {
   }
 
+  ngOnInit(): void {
+    this.deviceService.getAllDevices().subscribe(data =>{
+      this.devices=data;
+      this.showDevices=false;
+    })
+    this.shelfService.getAllShelves().subscribe(data =>{
+      this.shelves=data;
+      this.showShelves=false;
+    })
+  }
   createDevice(){
     this.deviceService.createDevice(this.newDevice).subscribe({
       next:(response)=> {
@@ -54,16 +67,19 @@ export class Landing{
   }
 
   loadDevices(){
+    this.showDevices=true;
     this.deviceService.getAllDevices().subscribe(data =>{
       this.devices=data;
-      this.showDevices=true;
+      
     })
+    console.log("Button clicked");
   }
 
   loadShelves(){
+    this.showShelves=true;
     this.shelfService.getAllShelves().subscribe(data =>{
       this.shelves=data;
-      this.showDevices=true;
+      
     })
   }
   createShelf(){

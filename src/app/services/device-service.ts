@@ -18,14 +18,13 @@ export class DeviceService {
   }
 
   getAllDevices():Observable<DeviceDefinition[]>{
-    return this.http.get<DeviceDefinition[]>(this.deviceUrl);
+    return this.http.get<DeviceDefinition[]>(`${this.deviceUrl}`);
   }
   createDevice(device:any):Observable<any>{
     return this.http.post(`${this.deviceUrl}/create`,device);
   }
 
   getAllShelfPositions(deviceid: string) {
-    console.log()
     return this.http.get<ShelfPosition[]>(`${this.shelfpositionUrl}/device/${deviceid}`);
   }
 
@@ -42,5 +41,13 @@ export class DeviceService {
 
   assignShelftoShelfPosition(shelfid:string,shelfpositionid:string){
     return this.http.post(`${this.shelfUrl}/${shelfid}/assign/${shelfpositionid}`,shelfid);
+  }
+
+  addShelfPositions(id:string,numberOfShelfPositions:number){
+    return this.http.put(`${this.shelfpositionUrl}/${id}/${numberOfShelfPositions}`,numberOfShelfPositions,{responseType:'text'});
+  }
+
+  deleteShelfPosition(id:string){
+    return this.http.delete(`${this.shelfpositionUrl}/${id}`,{responseType:'text'});
   }
 }

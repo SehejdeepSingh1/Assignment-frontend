@@ -30,6 +30,10 @@ export class DeviceSummary{
   enteredShelfId:string="";
   showUpdateForm:boolean=false;
   message:string='';
+  extranumberOfShelfPositions:number=0;
+  showShelfForm:Boolean=false;
+  shelfPositionId:string='';
+
   constructor(private route:ActivatedRoute,private deviceService:DeviceService,private shelfService:ShelfServices, private cdr:ChangeDetectorRef,private router:Router) {
   }
 
@@ -123,6 +127,8 @@ submitShelf(position: ShelfPosition) {
     return;
   }
 
+  let shelfalreadyassigned=position.isOccupied;
+
   this.shelfService
     .assignShelf(this.enteredShelfId, position.id)
     .subscribe({
@@ -132,51 +138,65 @@ submitShelf(position: ShelfPosition) {
         // reset UI
         this.selectedPositionId = null;
         this.enteredShelfId = '';
-        // position.isOccupied=true;
+        position.isOccupied=true;
         // refresh shelf positions if needed
         this.loadShelfPositions();
       },
       error: (err) => {
         console.error("Error assigning shelf:", err);
+        if(err.error=="java.lang.RuntimeException: java.lang.RuntimeException: Shelf already assigned to Shelf Position"){
+          alert("Shelf already assigned to Shelf Position");
+        }
+        if(err.error==`com.example.assignment.Exception.ShelfNotFoundException: Shelf not found with id : ${this.enteredShelfId}`){
+          alert("Shelf ID not found");
+        }
       }
     });
 }
 
+addShelfPositions(){
+  this.deviceService.addShelfPositions(this.deviceid,this.extranumberOfShelfPositions)
+  .subscribe({
+    next:(response)=>{
+      console.log(response);
+      this.extranumberOfShelfPositions=0;
+    }
+  })
+}
 
+deleteShelfPosition(id: string) {
+
+  this.deviceService.deleteShelfPosition(id)
+
+    .subscribe({
+
+      next: (response) => {
+
+        console.log(response);
+
+        // ✅ Remove the deleted item from the array
+
+        this.shelfPositions = this.shelfPositions.filter(
+
+          position => position.id !== id
+
+        );
+
+      },
+
+      error: (error) => {
+
+        console.error('Delete failed:', error);
+
+      }
+
+    });
+
+}
+ 
 viewShelfDetails(){
   this.deviceService
 }
- 
-//   deleteDevice(id: string) {
-
-//   this.deviceService.deleteDevice(id).subscribe({
-
-//     next: (response) => {
-
-//       console.log("Device deleted:", response);
-
-//       alert("Device deleted successfully");
-
-//       // If you want to refresh page or go back
-
-//       // this.loadDevices();  // if you have this method
-
-//       // OR
-
-//       // this.router.navigate(['/devices']);
-
-//     },
-
-//     error: (err) => {
-
-//       console.error("Error deleting device:", err);
-
-//     }
-
-//   });
-
-// }
- 
  
   toggleUpdateForm(){
     this.showUpdateForm=!this.showUpdateForm;

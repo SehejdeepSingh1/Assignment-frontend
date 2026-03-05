@@ -34,46 +34,48 @@
 <button class="btn primary" (click)="createShelf()">Submit</button>
 </div>
 <!-- Devices Table -->
-<div class="glass-card">
+<!-- Devices Table -->
+<div class="glass-card" *ngIf="showDevices">
 <h2>Devices</h2>
 <table>
 <thead>
 <tr>
-<th>Name</th>
-<th>Part</th>
-<th>Building</th>
-<th>Type</th>
-<th>Shelves</th>
+<th>Device Name</th>
+<th>Part Number</th>
+<th>Building Name</th>
+<th>Device Type</th>
+<th>Number Of Shelf Positions</th>
 <th></th>
 </tr>
 </thead>
 <tbody>
-
-        @for (device of devices; track device.id) {
-<tr>
+<tr *ngFor="let device of devices">
 <td>{{ device.deviceName }}</td>
 <td>{{ device.partNumber }}</td>
 <td>{{ device.buildingName }}</td>
 <td>{{ device.deviceType }}</td>
 <td>{{ device.numberOfShelfPositions }}</td>
 <td>
-<button class="btn small" [routerLink]="['/devices', device.id, 'shelves']">View</button>
+<button class="btn small" [routerLink]="['/devices', device.id, 'shelves']">
+
+View
+</button>
 </td>
 </tr>
-
-        }
 </tbody>
 </table>
 </div>
+ <!-- Shelves Table -->
 <!-- Shelves Table -->
-<div class="glass-card">
+<div class="glass-card" *ngIf="showShelves">
 <h2>Shelves</h2>
-<table><thead>
+<table>
+<thead>
 <tr>
-<th>ID</th>
+<th>Shelf ID</th>
 <th>Name</th>
-<th>Part</th>
-<th></th> <!-- Added column for button -->
+<th>Part Number</th>
+<th></th>
 </tr>
 </thead>
 <tbody>
@@ -84,18 +86,16 @@
 <td>{{ shelf.shelfName }}</td>
 <td>{{ shelf.partNumber }}</td>
 <td>
-<button 
-    class="btn small"
-    [routerLink]="['/shelves', shelf.id]">
-    View
+<button class="btn small" [routerLink]="['/shelves', shelf.id]">
+
+View
 </button>
 </td>
 </tr>
 
 }
 </tbody>
- 
 </table>
 </div>
-</div>
+ </div>
  

@@ -9,6 +9,42 @@
       {{ showUpdateForm ? 'Cancel' : 'Update Device' }}
 </button>
 
+<button class="btn btn-success me-2" (click)="showShelfForm = !showShelfForm">
+
+  Add Shelf Positions
+</button>
+ <!-- Add Shelf Positions Form -->
+<div class="card p-4 bg-light mb-4" *ngIf="showShelfForm">
+<h5 class="mb-3">Add Extra Shelf Positions</h5>
+<div class="row g-3">
+<div class="col-md-6">
+<input 
+
+        type="number"
+
+        class="form-control"
+
+        placeholder="Enter number of extra shelf positions"
+
+        [(ngModel)]="extranumberOfShelfPositions">
+</div>
+</div>
+<div class="mt-3">
+<button class="btn btn-primary"
+
+      (click)="addShelfPositions()">
+
+      Submit
+</button>
+<button class="btn btn-secondary ms-2"
+
+      (click)="showShelfForm = false">
+
+      Cancel
+</button>
+</div>
+</div>
+ 
 <button class="btn btn-danger"  (click)="deleteDevice()"> Delete Device </button>
 </div>
 </div>
@@ -29,9 +65,7 @@
 <div class="col-md-6">
 <input type="text" class="form-control" placeholder="Device Type" [(ngModel)]="updatedDevice.deviceType">
 </div>
-<div class="col-md-6">
-<input type="number" class="form-control" placeholder="Shelf Positions" [(ngModel)]="updatedDevice.numberOfShelfPositions">
-</div>
+
 </div>
 <div class="mt-4">
 <button class="btn btn-primary" (click)="updateDevice()">Submit Update</button>
@@ -83,47 +117,73 @@
 <tr>
 <th>ID</th>
 <th>Device ID</th>
-<th>Position Number</th>
-<th>Action</th> <!-- Added Action Column -->
+<th>Assigning Shelf</th>
+<th>Delete</th> <!-- Added Action Column -->
 </tr>
 </thead>
 <!-- Table Body -->
 <tbody>
 
-  @for (position of shelfPositions; track position.id) {
+  @for (position of shelfPositions; track $index) {
 <tr>
-<td>{{ position.id }}</td>
-<td>{{ position.deviceid }}</td>
+<td>{{position.id}}</td>
+<td>{{position.deviceId}}</td>
 <td>
-<!-- Show Add Shelf button -->
-
 <div *ngIf="position.isOccupied">
-  <span>
-    Shelf Position already filled
-  </span>
-</div>
-<button *ngIf="selectedPositionId !== position.id && !position.isOccupied"class="btn btn-success btn-sm"(click)="assignShelf(position)"> Add Shelf </button>
+<span>
 
-<!-- Show input + submit when clicked -->
+    Shelf Position already filled
+</span>
+</div>
+<button *ngIf="selectedPositionId !== position.id && !position.isOccupied"
+
+class="btn btn-success btn-sm"
+
+(click)="assignShelf(position)">
+
+Add Shelf
+</button>
 <div *ngIf="selectedPositionId === position.id && !position.isOccupied" class="d-flex gap-2">
-<input type="text" class="form-control form-control-sm"
+<input type="text"
+
+class="form-control form-control-sm"
+
 placeholder="Enter Shelf ID"
+
 [(ngModel)]="enteredShelfId">
 <button
+
 class="btn btn-primary btn-sm"
+
 (click)="submitShelf(position)">
+
 Submit
 </button>
 <button
+
 class="btn btn-secondary btn-sm"
+
 (click)="selectedPositionId = null">
+
 Cancel
 </button>
 </div>
+</td>
+<!-- DELETE BUTTON COLUMN -->
+<td>
+<div>
+  <button
 
+class="btn btn-danger btn-sm"
+(click)="deleteShelfPosition(position.id)">
+
+Delete Shelf Position
+</button>
+
+</div>
 </td>
 </tr>
-
+ 
   }
 </tbody>
  
