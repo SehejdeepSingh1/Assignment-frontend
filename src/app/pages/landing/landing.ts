@@ -45,6 +45,11 @@ export class Landing implements OnInit{
     })
   }
   createDevice(){
+    this.newDevice.deviceName = this.newDevice.deviceName.trim();
+    this.newDevice.partNumber = this.newDevice.partNumber.trim();
+    this.newDevice.buildingName = this.newDevice.buildingName.trim();
+    this.newDevice.deviceType = this.newDevice.deviceType.trim();
+    
     this.deviceService.createDevice(this.newDevice).subscribe({
       next:(response)=> {
         console.log("DeviceService saved to DB :", response);
@@ -83,6 +88,9 @@ export class Landing implements OnInit{
     })
   }
   createShelf(){
+    this.newShelf.shelfName = this.newShelf.shelfName.trim();
+    this.newShelf.partNumber = this.newShelf.partNumber.trim();
+
     this.shelfService.createShelf(this.newShelf).subscribe({
       next:(response)=>{
         console.log("Shelf Service saved to DB : ",response);
