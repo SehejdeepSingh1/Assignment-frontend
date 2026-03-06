@@ -3,128 +3,34 @@
 <div class="top-actions">
 <button class="btn glow" (click)="loadDevices()">Load Devices</button>
 <button class="btn glow" (click)="loadShelves()">Load Shelves</button>
-<button class="btn success" (click)="toggleDeviceCreationForm()">
-
-{{ showDeviceForm ? 'Cancel' : 'Create Device' }}
-</button>
-<button class="btn success" (click)="toggleShelfCreationForm()">
-
-{{ showShelfForm ? 'Cancel' : 'Create Shelf' }}
-</button>
+<button class="btn success" (click)="toggleDeviceCreationForm()"> {{ showDeviceForm ? 'Cancel' : 'Create Device' }} </button>
+<button class="btn success" (click)="toggleShelfCreationForm()"> {{ showShelfForm ? 'Cancel' : 'Create Shelf' }} </button>
 </div>
 
-<!-- ✅ CHANGED: Wrapped inside form with ngForm -->
 <form #deviceForm="ngForm" class="glass-card" *ngIf="showDeviceForm">
 <h3>Create New Device</h3>
 <div class="form-grid">
-<!-- ✅ ADDED name + required + pattern -->
-<input type="text"
-
-name="deviceName"
-
-placeholder="Device Name"
-
-required
-
-pattern=".*\S.*"
-
-[(ngModel)]="newDevice.deviceName"/>
-<!-- ✅ ADDED name + required + pattern -->
-<input type="text"
-
-name="partNumber"
-
-placeholder="Part Number"
-
-required
-
-pattern=".*\S.*"
-
-[(ngModel)]="newDevice.partNumber"/>
-<!-- ✅ ADDED name + required + pattern -->
-<input type="text"
-
-name="buildingName"
-
-placeholder="Building Name"
-
-required
-
-pattern=".*\S.*"
-
-[(ngModel)]="newDevice.buildingName"/>
-<!-- ✅ ADDED name + required + pattern -->
-<input type="text"
-
-name="deviceType"
-
-placeholder="Device Type"
-
-required
-
-pattern=".*\S.*"
-
-[(ngModel)]="newDevice.deviceType"/>
-<!-- ✅ ADDED name + required -->
-<input type="number"
-
-name="numberOfShelfPositions"
-
-placeholder="Shelf Positions"
-
-required
-
-[(ngModel)]="newDevice.numberOfShelfPositions"/>
+<input type="text" name="deviceName" placeholder="Device Name" required pattern=".*\S.*" [(ngModel)]="newDevice.deviceName"/>
+<input type="text" name="partNumber" placeholder="Part Number" required pattern=".*\S.*" [(ngModel)]="newDevice.partNumber"/>
+<input type="text" name="buildingName" placeholder="Building Name" required pattern=".*\S.*" [(ngModel)]="newDevice.buildingName"/>
+<input type="text" name="deviceType" placeholder="Device Type" required pattern=".*\S.*" [(ngModel)]="newDevice.deviceType"/>
+<input type="number" name="numberOfShelfPositions" placeholder="Shelf Positions" required [(ngModel)]="newDevice.numberOfShelfPositions"/>
 </div>
-<!-- ✅ CHANGED: disable button if form invalid -->
-<button class="btn primary"
 
-(click)="createDevice()"
+<p class="error-message" *ngIf="deviceForm.invalid && deviceForm.touched">Please fill all the detailed correctly</p>
 
-[disabled]="deviceForm.invalid">
+<button class="btn primary" (click)="createDevice()" [disabled]="deviceForm.invalid"> Submit</button>
 
-Submit
-</button>
 </form>
-
-<!-- ✅ CHANGED: Wrapped inside form with ngForm -->
 <form #shelfForm="ngForm" class="glass-card" *ngIf="showShelfForm">
 <h3>Create New Shelf</h3>
 <div class="form-grid">
-<!-- ✅ ADDED name + required + pattern -->
-<input type="text"
-
-name="shelfName"
-
-placeholder="Shelf Name"
-
-required
-
-pattern=".*\S.*"
-
-[(ngModel)]="newShelf.shelfName"/>
-<!-- ✅ ADDED name + required + pattern -->
-<input type="text"
-
-name="shelfPartNumber"
-
-placeholder="Part Number"
-
-required
-
-pattern=".*\S.*"
-
-[(ngModel)]="newShelf.partNumber"/>
+<input type="text" name="shelfName" placeholder="Shelf Name" required pattern=".*\S.*" [(ngModel)]="newShelf.shelfName"/>
+<input type="text" name="shelfPartNumber" placeholder="Part Number" required pattern=".*\S.*" [(ngModel)]="newShelf.partNumber"/>
 </div>
-<!-- ✅ CHANGED: disable button if form invalid -->
-<button class="btn primary"
+<p class="error-message" *ngIf="shelfForm.invalid && shelfForm.touched">Please fill all the detailes correctly</p>
 
-(click)="createShelf()"
-
-[disabled]="shelfForm.invalid">
-
-Submit
-</button>
+<button class="btn primary" (click)="createShelf()" [disabled]="shelfForm.invalid"> Submit </button>
 </form>
 
 <div class="glass-card" *ngIf="showDevices">
@@ -148,12 +54,7 @@ Submit
 <td>{{ device.deviceType }}</td>
 <td>{{ device.numberOfShelfPositions }}</td>
 <td>
-<button class="btn small"
-
-[routerLink]="['/devices', device.id, 'shelves']">
-
-View
-</button>
+<button class="btn small" [routerLink]="['/devices', device.id, 'shelves']"> View </button>
 </td>
 </tr>
 </tbody>
@@ -179,12 +80,7 @@ View
 <td>{{ shelf.shelfName }}</td>
 <td>{{ shelf.partNumber }}</td>
 <td>
-<button class="btn small"
-
-[routerLink]="['/shelves', shelf.id]">
-
-View
-</button>
+<button class="btn small" [routerLink]="['/shelves', shelf.id]"> View </button>
 </td>
 </tr>
 
