@@ -135,11 +135,9 @@ submitShelf(position: ShelfPosition) {
       next: (response) => {
         console.log(response);
         alert("Shelf assigned successfully");
-        // reset UI
         this.selectedPositionId = null;
         this.enteredShelfId = '';
         position.isOccupied=true;
-        // refresh shelf positions if needed
         this.loadShelfPositions();
       },
       error: (err) => {
@@ -166,31 +164,22 @@ addShelfPositions(){
 
 deleteShelfPosition(id: string) {
 
-  this.deviceService.deleteShelfPosition(id)
-
+  const confirmDelete = confirm("Are you sure you want to delete this shelf position ?");
+  if(confirmDelete){
+    this.deviceService.deleteShelfPosition(id)
     .subscribe({
-
       next: (response) => {
-
         console.log(response);
-
-        // ✅ Remove the deleted item from the array
-
         this.shelfPositions = this.shelfPositions.filter(
-
           position => position.id !== id
-
-        );
-
+        )
+        this.loadDevice();
       },
-
       error: (error) => {
-
         console.error('Delete failed:', error);
-
       }
-
     });
+  }
 
 }
  
