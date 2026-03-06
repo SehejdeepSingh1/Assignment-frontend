@@ -1,59 +1,78 @@
-# FrontendFinal
+# Frontend Application Source Code
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.4.
+This directory contains the source code for the frontend application, built with Angular. The application is designed to manage devices and shelves, allowing users to create, view, and organize shelf positions within devices.
 
-## Development server
+## Application Overview
 
-To start a local development server, run:
+The application provides a web interface for:
+- Viewing and creating devices (equipment with shelf positions)
+- Viewing and creating shelves (storage units)
+- Managing shelf positions within devices
+- Displaying summaries of devices and their associated shelves
 
-```bash
-ng serve
-```
+## Project Structure
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### Root Files
+- `index.html` - Main HTML entry point
+- `main.ts` - Application bootstrap file
+- `styles.css` - Global styles
 
-## Code scaffolding
+### `app/` Directory
+Contains the main application components and configuration:
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- `app.ts` - Root component
+- `app.html` - Root template
+- `app.css` - Root styles
+- `app.routes.ts` - Application routing configuration
+- `app.config.ts` - Application configuration
+- `app.spec.ts` - Root component tests
 
-```bash
-ng generate component component-name
-```
+### `classes/` Directory
+Data model classes defining the core entities:
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- `device-definition.ts` - Represents a device with properties like name, part number, building, type, and shelf capacity
+- `shelf-definition.ts` - Represents a shelf with name and part number
+- `shelf-position.ts` - Represents a position within a device that can hold a shelf, with occupancy status
 
-```bash
-ng generate --help
-```
+### `pages/` Directory
+Page components for different views:
 
-## Building
+- `landing/` - Main landing page showing lists of devices and shelves, with creation forms
+- `device-summary/` - Displays details of a specific device and its shelf positions
+- `shelf-summary/` - Displays details of a specific shelf
+- `device-creation/` - Form for creating new devices
+- `shelf-creation/` - Form for creating new shelves
 
-To build the project run:
+### `services/` Directory
+Services for API communication:
 
-```bash
-ng build
-```
+- `device-service.ts` - Handles device-related API calls
+- `shelf-services.ts` - Handles shelf-related API calls
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Architecture
 
-## Running unit tests
+The application follows Angular's standalone components architecture with:
+- Standalone components for better tree-shaking
+- Reactive forms for data input
+- HTTP client for backend communication
+- Router for navigation between pages
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Backend Integration
 
-```bash
-ng test
-```
+The application communicates with a backend API running on `http://localhost:8080` with endpoints for:
+- `/api/devices` - Device management
+- `/api/shelves` - Shelf management
+- `/api/shelf/shelfpositions` - Shelf position management
 
-## Running end-to-end tests
+## Getting Started
 
-For end-to-end (e2e) testing, run:
+To run the application:
+1. Ensure the backend API is running on localhost:8080
+2. Navigate to the project root directory
+3. Run `npm install` to install dependencies
+4. Run `npm start` to start the development server
+5. Open your browser to `http://localhost:4200`
 
-```bash
-ng e2e
-```
+## Testing
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Run `npm test` to execute the unit tests using the configured test framework.
