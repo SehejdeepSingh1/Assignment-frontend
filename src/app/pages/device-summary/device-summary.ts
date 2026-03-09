@@ -64,6 +64,11 @@ export class DeviceSummary{
       .subscribe(data => {
         console.log(data);
         this.shelfPositions=data
+        this.shelfPositions.forEach(position => {
+          if(position.isOccupied){
+            this.returnShelfName(position.id);
+          }
+        })
         this.cdr.detectChanges()
     });
   }
@@ -181,6 +186,22 @@ deleteShelfPosition(id: string) {
     });
   }
 
+}
+
+returnShelfName(id:string){
+  this.deviceService.returnShelfName(id)
+  .subscribe({
+    next:(response:any) =>{
+      const position=this.shelfPositions.find(p=>p.id===id);
+
+      if(position){
+        position.shelfName=response;
+      }
+      this.cdr.detectChanges();
+    },error:(error)=>{
+      console.error("Finding failed", error)
+    }
+  })
 }
  
 viewShelfDetails(){

@@ -50,4 +50,7 @@ export class DeviceService {
   deleteShelfPosition(id:string){
     return this.http.delete(`${this.shelfpositionUrl}/${id}`,{responseType:'text'});
   }
+  returnShelfName(id:string):Observable<string>{
+    return this.http.get<string>(`${this.shelfpositionUrl}/shelfname/${id}`);
+  }
 }

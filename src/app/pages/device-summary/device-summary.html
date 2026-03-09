@@ -118,9 +118,9 @@
             <td>{{position.deviceId}}</td>
             <td>
               <div *ngIf="position.isOccupied">
-                <span>
+                <span >
 
-                  Shelf Position already filled
+                  Shelf Position already filled - {{position.shelfName}}
                 </span>
               </div>
               <button *ngIf="selectedPositionId !== position.id && !position.isOccupied" class="btn btn-success btn-sm"
