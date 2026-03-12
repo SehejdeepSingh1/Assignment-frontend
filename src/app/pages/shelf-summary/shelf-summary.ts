@@ -19,8 +19,6 @@ export class ShelfSummary implements OnInit{
 
   constructor(private route:ActivatedRoute,private shelfService:ShelfServices){}
 
-  // showUpdateForm: boolean = false;
-
 ngOnInit(){
   this.shelfid=this.route.snapshot.paramMap.get('id');
 }

@@ -4,14 +4,10 @@
       <div class="d-flex justify-content-between align-items-center mb-4">
         <h3 class="mb-0">Device Details</h3>
         <div>
-          <button class="btn btn-success me-2" (click)="toggleUpdateForm()">
-            {{ showUpdateForm ? 'Cancel' : 'Update Device' }}
-          </button>
+          <button class="btn btn-success me-2" (click)="toggleUpdateForm()">{{ showUpdateForm ? 'Cancel' : 'Update
+            Device' }}</button>
 
-          <button class="btn btn-success me-2" (click)="showShelfForm = !showShelfForm">
-
-            Add Shelf Positions
-          </button>
+          <button class="btn btn-success me-2" (click)="showShelfForm = !showShelfForm">Add Shelf Positions</button>
 
           <div class="card p-4 bg-light mb-4" *ngIf="showShelfForm">
             <h5 class="mb-3">Add Extra Shelf Positions</h5>
@@ -22,14 +18,8 @@
               </div>
             </div>
             <div class="mt-3">
-              <button class="btn btn-primary" (click)="addShelfPositions()">
-
-                Submit
-              </button>
-              <button class="btn btn-secondary ms-2" (click)="showShelfForm = false">
-
-                Cancel
-              </button>
+              <button class="btn btn-primary" (click)="addShelfPositions()">Submit</button>
+              <button class="btn btn-secondary ms-2" (click)="showShelfForm = false">Cancel</button>
             </div>
           </div>
 
@@ -37,22 +27,25 @@
         </div>
       </div>
 
-      
+
       <div class="card p-4 bg-light mb-4" *ngIf="showUpdateForm">
         <h5 class="mb-3">Update Device</h5>
         <div class="row g-3">
           <div class="col-md-6">
-            <input type="text" class="form-control" placeholder="Device Name" [(ngModel)]="updatedDevice.deviceName">
+            <input type="text" class="form-control" placeholder="Device Name" required pattern=".*\S.*"
+              [(ngModel)]="updatedDevice.deviceName">
           </div>
           <div class="col-md-6">
-            <input type="text" class="form-control" placeholder="Part Number" [(ngModel)]="updatedDevice.partNumber">
+            <input type="text" class="form-control" placeholder="Part Number" required pattern=".*\S.*"
+              [(ngModel)]="updatedDevice.partNumber">
           </div>
           <div class="col-md-6">
-            <input type="text" class="form-control" placeholder="Building Name"
+            <input type="text" class="form-control" placeholder="Building Name" required pattern=".*\S.*"
               [(ngModel)]="updatedDevice.buildingName">
           </div>
           <div class="col-md-6">
-            <input type="text" class="form-control" placeholder="Device Type" [(ngModel)]="updatedDevice.deviceType">
+            <input type="text" class="form-control" placeholder="Device Type" required pattern=".*\S.*"
+              [(ngModel)]="updatedDevice.deviceType">
           </div>
 
         </div>
@@ -60,7 +53,7 @@
           <button class="btn btn-primary" (click)="updateDevice()">Submit Update</button>
         </div>
       </div>
-     
+
       <div class="row">
         <div class="col-md-4 mb-3">
           <div class="card shadow-sm p-3">
@@ -95,67 +88,69 @@
       </div>
     </div>
   </div>
-  
+
   <div class="card shadow-lg border-0">
     <div class="card-body">
       <h4 class="mb-3">Shelf Positions</h4>
       <table class="table table-hover table-bordered">
-     
+
         <thead class="table-dark">
           <tr>
             <th>ID</th>
-            <th>Device ID</th>
+            <th>Shelf Position ID</th>
             <th>Assigning Shelf</th>
-            <th>Delete</th> 
+            <th>Delete</th>
           </tr>
         </thead>
-      
+
         <tbody>
 
           @for (position of shelfPositions; track $index) {
           <tr>
+            <td>{{device.deviceName}}</td>
             <td>{{position.id}}</td>
-            <td>{{position.deviceId}}</td>
             <td>
               <div *ngIf="position.isOccupied">
-                <span >
-
+                <span>
                   Shelf Position already filled - {{position.shelfName}}
                 </span>
               </div>
               <button *ngIf="selectedPositionId !== position.id && !position.isOccupied" class="btn btn-success btn-sm"
                 (click)="assignShelf(position)">
-
-                Add Shelf
-              </button>
+                Add Shelf</button>
               <div *ngIf="selectedPositionId === position.id && !position.isOccupied" class="d-flex gap-2">
-                <input type="text" class="form-control form-control-sm" placeholder="Enter Shelf ID"
-                  [(ngModel)]="enteredShelfId">
-                <button class="btn btn-primary btn-sm" (click)="submitShelf(position)">
+                <div *ngIf="selectedPositionId === position.id && !position.isOccupied">
+                  <!-- Search box
+                  <input type="text" class="form-control mb-2" placeholder="Search shelf by name..."
+                    [(ngModel)]="searchShelfText" (input)="filterShelves()" /> -->
+                  <!-- Dropdown -->
+                  <select class="form-select mb-2" [(ngModel)]="selectedShelfId">
+                    <option *ngFor="let shelf of filteredShelves" [value]="shelf.id">
 
-                  Submit
-                </button>
-                <button class="btn btn-secondary btn-sm" (click)="selectedPositionId = null">
+                      {{ shelf.shelfName }}
+                    </option>
+                  </select>
+                  <button class="btn btn-primary btn-sm" (click)="submitShelf(position)">
 
-                  Cancel
-                </button>
+                    Assign Shelf
+                  </button>
+                  <button class="btn btn-secondary btn-sm" (click)="selectedPositionId = null">
+
+                    Cancel
+                  </button>
+                </div>
               </div>
             </td>
-    
+
             <td>
               <div>
-                <button class="btn btn-danger btn-sm" (click)="deleteShelfPosition(position.id)">
-
-                  Delete Shelf Position
-                </button>
-
+                <button class="btn btn-danger btn-sm" (click)="deleteShelfPosition(position.id)">Delete Shelf
+                  Position</button>
               </div>
             </td>
           </tr>
-
           }
         </tbody>
-
       </table>
     </div>
   </div>

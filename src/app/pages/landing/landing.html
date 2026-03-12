@@ -19,7 +19,7 @@
 
 <p class="error-message" *ngIf="deviceForm.invalid && deviceForm.touched">Please fill all the detailed correctly</p>
 
-<button class="btn primary" (click)="createDevice()" [disabled]="deviceForm.invalid"> Submit</button>
+<button class="btn primary" (click)="createDevice()" [disabled]="deviceForm.invalid" [routerLink]="['/devices', newDevice.id, 'shelves']"> Submit</button>
 
 </form>
 <form #shelfForm="ngForm" class="glass-card" *ngIf="showShelfForm">
@@ -69,6 +69,7 @@
 <th>Shelf ID</th>
 <th>Name</th>
 <th>Part Number</th>
+<th>Status</th>
 <th></th>
 </tr>
 </thead>

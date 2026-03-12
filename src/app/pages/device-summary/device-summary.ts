@@ -34,7 +34,17 @@ export class DeviceSummary{
   showShelfForm:Boolean=false;
   shelfPositionId:string='';
 
-  constructor(private route:ActivatedRoute,private deviceService:DeviceService,private shelfService:ShelfServices, private cdr:ChangeDetectorRef,private router:Router) {
+  availableShelves:any[]=[];
+  filteredShelves:any[]=[];
+  searchShelfText:string='';
+  selectedShelfId:string='';
+
+
+  constructor(private route:ActivatedRoute,
+    private deviceService:DeviceService,
+    private shelfService:ShelfServices, 
+    private cdr:ChangeDetectorRef,
+    private router:Router) {
   }
 
   ngOnInit() {
@@ -75,38 +85,21 @@ export class DeviceSummary{
 
 
   updateDevice() {
-  if (!this.deviceid) {
-    console.error("Device ID missing");
-    return;
-  }
   console.log("ID : ",this.deviceid);
   this.deviceService.updateDevice(this.deviceid, this.updatedDevice)
     .subscribe({
       next: (response) => {
         console.log("Device updated:", response);
         this.showUpdateForm = false;
-        this.updatedDevice = {
-          id:'',
-          deviceName: '',
-          partNumber: '',
-          buildingName: '',
-          deviceType: '',
-          numberOfShelfPositions: 0
-        };
+        this.cdr.detectChanges();
       },
       error: (error) => {
         console.log("Full error object:", error);
       }
- 
-
     });
 }
 
 deleteDevice() {
-  if (!this.deviceid) {
-    console.error("Device ID not found");
-    return;
-  }
   const confirmDelete = confirm("Are you sure you want to delete this device?");
   if (confirmDelete) {
     this.deviceService.deleteDevice(this.deviceid).subscribe({
@@ -120,49 +113,50 @@ deleteDevice() {
   }
 }
 
-assignShelf(position:ShelfPosition){
-  this.selectedPositionId=position.id;
-  this.enteredShelfId='';
-  
+assignShelf(position: any) {
+
+  this.selectedPositionId = position.id;
+
+  this.shelfService.getAllShelves().subscribe(data => {
+
+    this.availableShelves = data.filter((s: any) => !s.isDeleted);
+
+    this.filteredShelves = this.availableShelves;
+
+  });
+
 }
+ filterShelves() {
 
-submitShelf(position: ShelfPosition) {
-  if (!this.enteredShelfId) {
-    alert("Please enter Shelf ID");
-    return;
-  }
+  const text = this.searchShelfText.toLowerCase();
 
-  let shelfalreadyassigned=position.isOccupied;
+  this.filteredShelves = this.availableShelves.filter(s =>
 
-  this.shelfService
-    .assignShelf(this.enteredShelfId, position.id)
-    .subscribe({
-      next: (response) => {
-        console.log(response);
-        alert("Shelf assigned successfully");
-        this.selectedPositionId = null;
-        this.enteredShelfId = '';
-        position.isOccupied=true;
-        this.loadShelfPositions();
-      },
-      error: (err) => {
-        console.error("Error assigning shelf:", err);
-        if(err.error=="java.lang.RuntimeException: java.lang.RuntimeException: Shelf already assigned to Shelf Position"){
-          alert("Shelf already assigned to Shelf Position");
-        }
-        if(err.error==`com.example.assignment.Exception.ShelfNotFoundException: Shelf not found with id : ${this.enteredShelfId}`){
-          alert("Shelf ID not found");
-        }
-      }
+    s.shelfName.toLowerCase().includes(text)
+
+  );
+
+}
+ submitShelf(position: any) {
+
+  this.shelfService.assignShelf(this.selectedShelfId, position.id)
+
+    .subscribe(() => {
+
+      this.selectedPositionId = null;
+
+      this.loadShelfPositions();
+
     });
+
 }
+ 
 
 addShelfPositions(){
   this.deviceService.addShelfPositions(this.deviceid,this.extranumberOfShelfPositions)
   .subscribe({
     next:(response)=>{
       console.log(response);
-      this.extranumberOfShelfPositions=0;
     }
   })
 }
@@ -179,6 +173,7 @@ deleteShelfPosition(id: string) {
           position => position.id !== id
         )
         this.loadDevice();
+        this.cdr.detectChanges();
       },
       error: (error) => {
         console.error('Delete failed:', error);
@@ -204,10 +199,7 @@ returnShelfName(id:string){
   })
 }
  
-viewShelfDetails(){
-  this.deviceService
-}
- 
+
   toggleUpdateForm(){
     this.showUpdateForm=!this.showUpdateForm;
 

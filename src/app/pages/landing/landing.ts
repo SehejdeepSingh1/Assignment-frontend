@@ -30,7 +30,7 @@ export class Landing implements OnInit{
   newDevice: DeviceDefinition = new DeviceDefinition()
   public newShelf:ShelfDefinition = new ShelfDefinition()
   constructor(private deviceService:DeviceService,
-              private shelfService:ShelfServices,
+            private shelfService:ShelfServices,
             private cdr:ChangeDetectorRef) {
   }
 
