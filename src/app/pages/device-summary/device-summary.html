@@ -112,29 +112,32 @@
             <td>
               <div *ngIf="position.isOccupied">
                 <span>
-                  Shelf Position already filled - {{position.shelfName}}
+
+                  Shelf already assgined at : {{ position.shelfName }}
                 </span>
+                <br>
+                <button class="btn btn-danger btn-sm ms-2" (click)="clearShelf(position)">
+                  Clear
+                </button>
               </div>
+
               <button *ngIf="selectedPositionId !== position.id && !position.isOccupied" class="btn btn-success btn-sm"
                 (click)="assignShelf(position)">
                 Add Shelf</button>
               <div *ngIf="selectedPositionId === position.id && !position.isOccupied" class="d-flex gap-2">
                 <div *ngIf="selectedPositionId === position.id && !position.isOccupied">
-                  <!-- Search box
-                  <input type="text" class="form-control mb-2" placeholder="Search shelf by name..."
-                    [(ngModel)]="searchShelfText" (input)="filterShelves()" /> -->
-                  <!-- Dropdown -->
                   <select class="form-select mb-2" [(ngModel)]="selectedShelfId">
                     <option *ngFor="let shelf of filteredShelves" [value]="shelf.id">
 
                       {{ shelf.shelfName }}
                     </option>
+
                   </select>
                   <button class="btn btn-primary btn-sm" (click)="submitShelf(position)">
 
                     Assign Shelf
                   </button>
-                  <button class="btn btn-secondary btn-sm" (click)="selectedPositionId = null">
+                  <button class="btn btn-secondary btn-sm" (click)="selectedPositionId =''">
 
                     Cancel
                   </button>

@@ -4,5 +4,5 @@ export class ShelfPosition {
     deviceName:string="";
     positionNumber:number=0;
     isOccupied:Boolean=false;
-    shelfName?:string;
+    shelfName:string="";
 }

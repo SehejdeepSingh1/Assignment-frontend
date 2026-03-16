@@ -17,6 +17,9 @@ export class ShelfServices {
   getAllShelves():Observable<ShelfDefinition[]>{
     return this.http.get<ShelfDefinition[]>(`${this.shelfurl}/getAllShelves`);
   }
+  getAvailableShelves():Observable<ShelfDefinition[]>{
+    return this.http.get<ShelfDefinition[]>(`${this.shelfurl}/getAvailableShelves`);
+  }
   assignShelf(shelfid:string,shelfPositionId:string){
     return this.http.post(`${this.shelfurl}/${shelfid}/assign/${shelfPositionId}`,{},{responseType:'text'});
   }
@@ -28,4 +31,5 @@ export class ShelfServices {
   deleteShelf(id:string){
     return this.http.delete(`${this.shelfurl}/${id}`);
   }
+  
 }

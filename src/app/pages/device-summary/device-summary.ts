@@ -26,16 +26,17 @@ export class DeviceSummary{
   device: DeviceDefinition = new DeviceDefinition;
   updatedDevice:DeviceDefinition=new DeviceDefinition;
   shelfPositions:ShelfPosition[]=[];
-  selectedPositionId:string|null=null;
+  selectedPositionId:string="";
   enteredShelfId:string="";
   showUpdateForm:boolean=false;
   message:string='';
   extranumberOfShelfPositions:number=0;
   showShelfForm:Boolean=false;
   shelfPositionId:string='';
-
+  s1:ShelfDefinition=new ShelfDefinition;
+  s2:ShelfDefinition=new ShelfDefinition;
   availableShelves:any[]=[];
-  filteredShelves:any[]=[];
+  filteredShelves:ShelfDefinition[]=[];
   searchShelfText:string='';
   selectedShelfId:string='';
 
@@ -114,41 +115,37 @@ deleteDevice() {
 }
 
 assignShelf(position: any) {
-
+  console.log("assign shelf clicked");
+  
   this.selectedPositionId = position.id;
-
-  this.shelfService.getAllShelves().subscribe(data => {
-
-    this.availableShelves = data.filter((s: any) => !s.isDeleted);
-
+  this.shelfService.getAvailableShelves().subscribe(data => {
+    this.availableShelves = data;
     this.filteredShelves = this.availableShelves;
-
   });
-
+  console.log("Shelf assigned");
+  console.log(this.filteredShelves);
+  this.cdr.detectChanges();
+  
 }
- filterShelves() {
 
-  const text = this.searchShelfText.toLowerCase();
-
-  this.filteredShelves = this.availableShelves.filter(s =>
-
-    s.shelfName.toLowerCase().includes(text)
-
-  );
-
-}
- submitShelf(position: any) {
-
+submitShelf(position: any) {
   this.shelfService.assignShelf(this.selectedShelfId, position.id)
-
     .subscribe(() => {
-
-      this.selectedPositionId = null;
-
+      this.selectedPositionId = "";
+      console.log(this.filteredShelves);
       this.loadShelfPositions();
-
     });
-
+    console.log("Shelf Submitted");
+    
+}
+ 
+ clearShelf(position:ShelfPosition){
+  this.deviceService.unassignShelf(position.id)
+  .subscribe(()=>{
+    position.shelfName = "";
+    this.loadShelfPositions();
+    this.cdr.detectChanges(); 
+  });
 }
  
 

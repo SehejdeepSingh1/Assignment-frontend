@@ -98,7 +98,8 @@ export class Landing implements OnInit{
         this.newShelf={
           id:'',
           shelfName:'',
-          partNumber:''
+          partNumber:'',
+          isOccupied:false
         }
       }
     })

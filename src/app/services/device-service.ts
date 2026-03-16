@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {DeviceDefinition} from '../classes/device-definition';
 import { ShelfPosition } from '../classes/shelf-position';
+import { ShelfDefinition } from '../classes/shelf-definition';
 
 
 @Injectable({
@@ -53,5 +54,15 @@ export class DeviceService {
   
   returnShelfName(id:string):Observable<string>{
     return this.http.get<string>(`${this.shelfpositionUrl}/shelfname/${id}`);
+  }
+
+  unassignShelf(id:string){
+    return this.http.delete(`${this.shelfpositionUrl}/unassign/${id}`);
+  }
+  getShelfById(id:string):Observable<ShelfDefinition>{
+    return this.http.get<ShelfDefinition>(`${this.shelfUrl}/${id}`);
+  }
+  getShelfByName(name:string):Observable<ShelfDefinition>{
+    return this.http.get<ShelfDefinition>(`${this.shelfUrl}/name/${name}`);
   }
 }
