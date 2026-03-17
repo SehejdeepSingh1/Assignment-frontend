@@ -1,5 +1,21 @@
 <div class="dashboard">
 <h1 class="page-title">Device Control Center</h1>
+<div class="glass-card mb-3">
+<input 
+
+    type="text" 
+
+    class="form-control" 
+
+    placeholder="Search device or shelf..."
+
+    [(ngModel)]="searchText"
+
+    (input)="onSearch()"
+
+  />
+</div>
+ 
 <div class="top-actions">
 <button class="btn success" (click)="toggleDeviceCreationForm()"> {{ showDeviceForm ? 'Cancel' : 'Create Device' }} </button>
 <button class="btn success" (click)="toggleShelfCreationForm()"> {{ showShelfForm ? 'Cancel' : 'Create Shelf' }} </button>
@@ -30,7 +46,42 @@
 
 <button class="btn primary" (click)="createShelf()" [disabled]="shelfForm.invalid"> Submit </button>
 </form>
+<div class="glass-card" *ngIf="filteredDevices.length || filteredShelves.length">
+<h2>Search Results</h2>
+<!-- Devices -->
+<div *ngIf="filteredDevices.length">
+<h4>Devices</h4>
+<table>
+<tr *ngFor="let device of filteredDevices">
+<td>{{ device.deviceName }}</td>
+<td>{{ device.partNumber }}</td>
+<td>
+<button class="btn small" [routerLink]="['/devices', device.id, 'shelves']">
 
+            View
+</button>
+</td>
+</tr>
+</table>
+</div>
+<!-- Shelves -->
+<div *ngIf="filteredShelves.length">
+<h4>Shelves</h4>
+<table>
+<tr *ngFor="let shelf of filteredShelves">
+<td>{{ shelf.shelfName }}</td>
+<td>{{ shelf.partNumber }}</td>
+<td>
+<button class="btn small" [routerLink]="['/shelves', shelf.id]">
+
+            View
+</button>
+</td>
+</tr>
+</table>
+</div>
+</div>
+ 
 <div class="glass-card">
 <h2>Devices</h2>
 <table>

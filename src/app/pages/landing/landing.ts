@@ -22,6 +22,9 @@ import {RouterLink} from '@angular/router';
 })
 export class Landing implements OnInit{
   devices:DeviceDefinition[]=[];
+  searchText:string='';
+  filteredDevices:any[]=[];
+  filteredShelves:any[]=[];
   shelves:ShelfDefinition[]=[];
   showDeviceForm=false;
   showShelfForm=false;
@@ -36,6 +39,37 @@ export class Landing implements OnInit{
     this.loadDevices();
     this.loadShelves();
   }
+
+
+  onSearch() {
+
+  const text = this.searchText.toLowerCase().trim();
+
+  if (!text) {
+
+    this.filteredDevices = [];
+
+    this.filteredShelves = [];
+
+    return;
+
+  }
+
+  this.filteredDevices = this.devices.filter(d =>
+
+    d.deviceName?.toLowerCase().includes(text)
+
+  );
+
+  this.filteredShelves = this.shelves.filter(s =>
+
+    s.shelfName?.toLowerCase().includes(text)
+
+  );
+
+}
+ 
+
   createDevice(){
     this.newDevice.deviceName = this.newDevice.deviceName.trim();
     this.newDevice.partNumber = this.newDevice.partNumber.trim();
