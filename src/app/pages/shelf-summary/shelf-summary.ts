@@ -25,10 +25,8 @@ ngOnInit(){
 
     this.shelfService.getShelfById(this.shelfid).subscribe(data => {
       console.log(data);
-      
-      this.shelfName = data.shelfName; // ✅ now it will display
-
-      this.updatedShelf = data; // optional (prefill form)
+      this.shelfName = data.shelfName;
+      this.updatedShelf = data;
       this.cdr.detectChanges();
     });
 
@@ -37,15 +35,11 @@ ngOnInit(){
 }
 
 openUpdateForm() {
-
   this.showUpdateForm = true;
-
 }
 
 closeUpdateForm() {
-
   this.showUpdateForm = false;
-
 }
 
 updateShelf() {

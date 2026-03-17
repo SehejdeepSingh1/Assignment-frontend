@@ -1,149 +1,151 @@
 <div class="dashboard">
-<h1 class="page-title">Device Control Center</h1>
-<div class="glass-card mb-3">
-<input 
+    <h1 class="page-title">Device Control Center</h1>
+    <div class="glass-card mb-3">
+        <input type="text" class="form-control" placeholder="Search device or shelf..." [(ngModel)]="searchText"
+            (input)="onSearch()" />
+    </div>
 
-    type="text" 
+    <div class="top-actions">
+        <button class="btn success" (click)="toggleDeviceCreationForm()"> {{ showDeviceForm ? 'Cancel' : 'Create Device'
+            }} </button>
+        <button class="btn success" (click)="toggleShelfCreationForm()"> {{ showShelfForm ? 'Cancel' : 'Create Shelf' }}
+        </button>
+    </div>
 
-    class="form-control" 
+    <form #deviceForm="ngForm" class="glass-card" *ngIf="showDeviceForm">
+        <h3>Create New Device</h3>
+        <div class="form-grid">
+            <input type="text" name="deviceName" placeholder="Device Name" required pattern=".*\S.*"
+                [(ngModel)]="newDevice.deviceName" />
+            <input type="text" name="partNumber" placeholder="Part Number" required pattern=".*\S.*"
+                [(ngModel)]="newDevice.partNumber" />
+            <input type="text" name="buildingName" placeholder="Building Name" required pattern=".*\S.*"
+                [(ngModel)]="newDevice.buildingName" />
+            <input type="text" name="deviceType" placeholder="Device Type" required pattern=".*\S.*"
+                [(ngModel)]="newDevice.deviceType" />
+            <input type="number" name="numberOfShelfPositions" placeholder="Shelf Positions" required min="1"
+                [(ngModel)]="newDevice.numberOfShelfPositions" />
+        </div>
 
-    placeholder="Search device or shelf..."
+        <p class="error-message" *ngIf="deviceForm.invalid && deviceForm.touched">Please fill all the detailed correctly
+        </p>
 
-    [(ngModel)]="searchText"
+        <button class="btn primary" (click)="createDevice()" [disabled]="deviceForm.invalid">
 
-    (input)="onSearch()"
+            Submit
+        </button>
 
-  />
-</div>
- 
-<div class="top-actions">
-<button class="btn success" (click)="toggleDeviceCreationForm()"> {{ showDeviceForm ? 'Cancel' : 'Create Device' }} </button>
-<button class="btn success" (click)="toggleShelfCreationForm()"> {{ showShelfForm ? 'Cancel' : 'Create Shelf' }} </button>
-</div>
+    </form>
+    <form #shelfForm="ngForm" class="glass-card" *ngIf="showShelfForm">
+        <h3>Create New Shelf</h3>
+        <div class="form-grid">
+            <input type="text" name="shelfName" placeholder="Shelf Name" required pattern=".*\S.*"
+                [(ngModel)]="newShelf.shelfName" />
+            <input type="text" name="shelfPartNumber" placeholder="Part Number" required pattern=".*\S.*"
+                [(ngModel)]="newShelf.partNumber" />
+        </div>
+        <p class="error-message" *ngIf="shelfForm.invalid && shelfForm.touched">Please fill all the detailes correctly
+        </p>
 
-<form #deviceForm="ngForm" class="glass-card" *ngIf="showDeviceForm">
-<h3>Create New Device</h3>
-<div class="form-grid">
-<input type="text" name="deviceName" placeholder="Device Name" required pattern=".*\S.*" [(ngModel)]="newDevice.deviceName"/>
-<input type="text" name="partNumber" placeholder="Part Number" required pattern=".*\S.*" [(ngModel)]="newDevice.partNumber"/>
-<input type="text" name="buildingName" placeholder="Building Name" required pattern=".*\S.*" [(ngModel)]="newDevice.buildingName"/>
-<input type="text" name="deviceType" placeholder="Device Type" required pattern=".*\S.*" [(ngModel)]="newDevice.deviceType"/>
-<input type="number" name="numberOfShelfPositions" placeholder="Shelf Positions" required min="1" [(ngModel)]="newDevice.numberOfShelfPositions"/>
-</div>
+        <button class="btn primary" (click)="createShelf()" [disabled]="shelfForm.invalid"> Submit </button>
+    </form>
+    <div class="glass-card" *ngIf="filteredDevices.length || filteredShelves.length">
+        <h2>Search Results</h2>
+        <!-- Devices -->
+        <div *ngIf="filteredDevices.length">
+            <h4>Devices</h4>
+            <table>
+                <tr *ngFor="let device of filteredDevices">
+                    <td>{{ device.deviceName }}</td>
+                    <td>{{ device.partNumber }}</td>
+                    <td>
+                        <button class="btn small" [routerLink]="['/devices', device.id, 'shelves']">
 
-<p class="error-message" *ngIf="deviceForm.invalid && deviceForm.touched">Please fill all the detailed correctly</p>
+                            View
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!-- Shelves -->
+        <div *ngIf="filteredShelves.length">
+            <h4>Shelves</h4>
+            <table>
+                <tr *ngFor="let shelf of filteredShelves">
+                    <td>{{ shelf.shelfName }}</td>
+                    <td>{{ shelf.partNumber }}</td>
+                    <td>
+                        <button class="btn small" [routerLink]="['/shelves', shelf.id]">
 
-<button class="btn primary" (click)="createDevice()" [disabled]="deviceForm.invalid" [routerLink]="['/devices', newDevice.id, 'shelves']"> Submit</button>
+                            View
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 
-</form>
-<form #shelfForm="ngForm" class="glass-card" *ngIf="showShelfForm">
-<h3>Create New Shelf</h3>
-<div class="form-grid">
-<input type="text" name="shelfName" placeholder="Shelf Name" required pattern=".*\S.*" [(ngModel)]="newShelf.shelfName"/>
-<input type="text" name="shelfPartNumber" placeholder="Part Number" required pattern=".*\S.*" [(ngModel)]="newShelf.partNumber"/>
-</div>
-<p class="error-message" *ngIf="shelfForm.invalid && shelfForm.touched">Please fill all the detailes correctly</p>
+    <div class="glass-card">
+        <h2>Devices</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Device Name</th>
+                    <th>Part Number</th>
+                    <th>Building Name</th>
+                    <th>Device Type</th>
+                    <th>Number Of Shelf Positions</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let device of devices">
+                    <td>{{ device.deviceName }}</td>
+                    <td>{{ device.partNumber }}</td>
+                    <td>{{ device.buildingName }}</td>
+                    <td>{{ device.deviceType }}</td>
+                    <td>{{ device.numberOfShelfPositions }}</td>
+                    <td>
+                        <button class="btn small" [routerLink]="['/devices', device.id, 'shelves']"> View </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-<button class="btn primary" (click)="createShelf()" [disabled]="shelfForm.invalid"> Submit </button>
-</form>
-<div class="glass-card" *ngIf="filteredDevices.length || filteredShelves.length">
-<h2>Search Results</h2>
-<!-- Devices -->
-<div *ngIf="filteredDevices.length">
-<h4>Devices</h4>
-<table>
-<tr *ngFor="let device of filteredDevices">
-<td>{{ device.deviceName }}</td>
-<td>{{ device.partNumber }}</td>
-<td>
-<button class="btn small" [routerLink]="['/devices', device.id, 'shelves']">
+    <div class="glass-card">
+        <h2>Shelves</h2>
+        <table>
+            <thead>
+                <tr>
+                    <!-- <th>Shelf ID</th> -->
+                    <th>Name</th>
+                    <th>Part Number</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
 
-            View
-</button>
-</td>
-</tr>
-</table>
-</div>
-<!-- Shelves -->
-<div *ngIf="filteredShelves.length">
-<h4>Shelves</h4>
-<table>
-<tr *ngFor="let shelf of filteredShelves">
-<td>{{ shelf.shelfName }}</td>
-<td>{{ shelf.partNumber }}</td>
-<td>
-<button class="btn small" [routerLink]="['/shelves', shelf.id]">
+                @for (shelf of shelves; track shelf.id) {
+                <tr>
+                    <!-- <td>{{ shelf.id }}</td> -->
+                    <td>{{ shelf.shelfName }}</td>
+                    <td>{{ shelf.partNumber }}</td>
+                    <td>
+                        <button class="btn small" [routerLink]="['/shelves', shelf.id]"> View </button>
+                    </td>
+                </tr>
 
-            View
-</button>
-</td>
-</tr>
-</table>
-</div>
-</div>
- 
-<div class="glass-card">
-<h2>Devices</h2>
-<table>
-<thead>
-<tr>
-<th>Device Name</th>
-<th>Part Number</th>
-<th>Building Name</th>
-<th>Device Type</th>
-<th>Number Of Shelf Positions</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr *ngFor="let device of devices">
-<td>{{ device.deviceName }}</td>
-<td>{{ device.partNumber }}</td>
-<td>{{ device.buildingName }}</td>
-<td>{{ device.deviceType }}</td>
-<td>{{ device.numberOfShelfPositions }}</td>
-<td>
-<button class="btn small" [routerLink]="['/devices', device.id, 'shelves']"> View </button>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-
-<div class="glass-card">
-<h2>Shelves</h2>
-<table>
-<thead>
-<tr>
-<!-- <th>Shelf ID</th> -->
-<th>Name</th>
-<th>Part Number</th>
-<th>Status</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-
-@for (shelf of shelves; track shelf.id) {
-<tr>
-<!-- <td>{{ shelf.id }}</td> -->
-<td>{{ shelf.shelfName }}</td>
-<td>{{ shelf.partNumber }}</td>
-<td>
-<button class="btn small" [routerLink]="['/shelves', shelf.id]"> View </button>
-</td>
-</tr>
-
-}
-</tbody>
-</table>
-</div>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <footer class="footer">
-<div class="footer-content">
-<p>© 2026 Device Control Center</p>
-<p>Built with Angular | Device Management Dashboard</p>
-</div>
+    <div class="footer-content">
+        <p>© 2026 Device Control Center</p>
+        <p>Built with Angular | Device Management Dashboard</p>
+    </div>
 </footer>
- 
