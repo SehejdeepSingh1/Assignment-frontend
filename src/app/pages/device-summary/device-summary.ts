@@ -36,7 +36,7 @@ export class DeviceSummary{
   s1:ShelfDefinition=new ShelfDefinition;
   s2:ShelfDefinition=new ShelfDefinition;
   availableShelves:any[]=[];
-  filteredShelves:ShelfDefinition[]=[];
+  filteredShelves:any[]=[];
   searchShelfText:string='';
   selectedShelfId:string='';
 
@@ -121,11 +121,10 @@ assignShelf(position: any) {
   this.shelfService.getAvailableShelves().subscribe(data => {
     this.availableShelves = data;
     this.filteredShelves = this.availableShelves;
+    console.log("Shelf assigned");
+    console.log(this.filteredShelves);
   });
-  console.log("Shelf assigned");
-  console.log(this.filteredShelves);
-  this.cdr.detectChanges();
-  
+  // this.cdr.detectChanges();
 }
 
 submitShelf(position: any) {
@@ -136,7 +135,7 @@ submitShelf(position: any) {
       this.loadShelfPositions();
     });
     console.log("Shelf Submitted");
-    
+    this.cdr.detectChanges();
 }
  
  clearShelf(position:ShelfPosition){
@@ -146,6 +145,7 @@ submitShelf(position: any) {
     this.loadShelfPositions();
     this.cdr.detectChanges(); 
   });
+  this.cdr.detectChanges();
 }
  
 

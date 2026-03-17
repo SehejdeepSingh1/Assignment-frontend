@@ -23,8 +23,6 @@ import {RouterLink} from '@angular/router';
 export class Landing implements OnInit{
   devices:DeviceDefinition[]=[];
   shelves:ShelfDefinition[]=[];
-  showDevices=false;
-  showShelves=false;
   showDeviceForm=false;
   showShelfForm=false;
   newDevice: DeviceDefinition = new DeviceDefinition()
@@ -35,14 +33,8 @@ export class Landing implements OnInit{
   }
 
   ngOnInit(): void {
-    this.deviceService.getAllDevices().subscribe(data =>{
-      this.devices=data;
-      this.showDevices=false;
-    })
-    this.shelfService.getAllShelves().subscribe(data =>{
-      this.shelves=data;
-      this.showShelves=false;
-    })
+    this.loadDevices();
+    this.loadShelves();
   }
   createDevice(){
     this.newDevice.deviceName = this.newDevice.deviceName.trim();
@@ -72,19 +64,16 @@ export class Landing implements OnInit{
   }
 
   loadDevices(){
-    this.showDevices=true;
     this.deviceService.getAllDevices().subscribe(data =>{
       this.devices=data;
-      
+      this.cdr.detectChanges();
     })
-    console.log("Button clicked");
   }
 
   loadShelves(){
-    this.showShelves=true;
     this.shelfService.getAllShelves().subscribe(data =>{
       this.shelves=data;
-      
+      this.cdr.detectChanges();
     })
   }
   createShelf(){

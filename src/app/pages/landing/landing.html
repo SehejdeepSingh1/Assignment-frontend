@@ -1,8 +1,6 @@
 <div class="dashboard">
 <h1 class="page-title">Device Control Center</h1>
 <div class="top-actions">
-<button class="btn glow" (click)="loadDevices()">Load Devices</button>
-<button class="btn glow" (click)="loadShelves()">Load Shelves</button>
 <button class="btn success" (click)="toggleDeviceCreationForm()"> {{ showDeviceForm ? 'Cancel' : 'Create Device' }} </button>
 <button class="btn success" (click)="toggleShelfCreationForm()"> {{ showShelfForm ? 'Cancel' : 'Create Shelf' }} </button>
 </div>
@@ -33,7 +31,7 @@
 <button class="btn primary" (click)="createShelf()" [disabled]="shelfForm.invalid"> Submit </button>
 </form>
 
-<div class="glass-card" *ngIf="showDevices">
+<div class="glass-card">
 <h2>Devices</h2>
 <table>
 <thead>
@@ -61,7 +59,7 @@
 </table>
 </div>
 
-<div class="glass-card" *ngIf="showShelves">
+<div class="glass-card">
 <h2>Shelves</h2>
 <table>
 <thead>
