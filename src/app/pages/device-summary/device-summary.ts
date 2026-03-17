@@ -123,6 +123,7 @@ assignShelf(position: any) {
     this.filteredShelves = this.availableShelves;
     console.log("Shelf assigned");
     console.log(this.filteredShelves);
+    this.cdr.detectChanges();
   });
   // this.cdr.detectChanges();
 }
@@ -145,7 +146,6 @@ submitShelf(position: any) {
     this.loadShelfPositions();
     this.cdr.detectChanges(); 
   });
-  this.cdr.detectChanges();
 }
  
 
