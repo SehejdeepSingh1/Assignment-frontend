@@ -31,5 +31,8 @@ export class ShelfServices {
   deleteShelf(id:string){
     return this.http.delete(`${this.shelfurl}/${id}`);
   }
+  getShelfById(id:string):Observable<any>{
+    return this.http.get(`${this.shelfurl}/${id}`);
+  }
   
 }

@@ -71,6 +71,11 @@ export class Landing implements OnInit{
  
 
   createDevice(){
+
+    if(this.newDevice.numberOfShelfPositions<1){
+      alert("Number of shelf positions must be greater than 0");
+      return;
+    }
     this.newDevice.deviceName = this.newDevice.deviceName.trim();
     this.newDevice.partNumber = this.newDevice.partNumber.trim();
     this.newDevice.buildingName = this.newDevice.buildingName.trim();

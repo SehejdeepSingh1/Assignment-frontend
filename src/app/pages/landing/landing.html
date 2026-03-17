@@ -28,7 +28,7 @@
 <input type="text" name="partNumber" placeholder="Part Number" required pattern=".*\S.*" [(ngModel)]="newDevice.partNumber"/>
 <input type="text" name="buildingName" placeholder="Building Name" required pattern=".*\S.*" [(ngModel)]="newDevice.buildingName"/>
 <input type="text" name="deviceType" placeholder="Device Type" required pattern=".*\S.*" [(ngModel)]="newDevice.deviceType"/>
-<input type="number" name="numberOfShelfPositions" placeholder="Shelf Positions" required [(ngModel)]="newDevice.numberOfShelfPositions"/>
+<input type="number" name="numberOfShelfPositions" placeholder="Shelf Positions" required min="1" [(ngModel)]="newDevice.numberOfShelfPositions"/>
 </div>
 
 <p class="error-message" *ngIf="deviceForm.invalid && deviceForm.touched">Please fill all the detailed correctly</p>
@@ -115,7 +115,7 @@
 <table>
 <thead>
 <tr>
-<th>Shelf ID</th>
+<!-- <th>Shelf ID</th> -->
 <th>Name</th>
 <th>Part Number</th>
 <th>Status</th>
@@ -126,7 +126,7 @@
 
 @for (shelf of shelves; track shelf.id) {
 <tr>
-<td>{{ shelf.id }}</td>
+<!-- <td>{{ shelf.id }}</td> -->
 <td>{{ shelf.shelfName }}</td>
 <td>{{ shelf.partNumber }}</td>
 <td>

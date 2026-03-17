@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ShelfServices } from '../../services/shelf-services';
 import { ShelfDefinition } from '../../classes/shelf-definition';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -12,15 +12,28 @@ import { NgFor, NgIf } from '@angular/common';
   styleUrl: './shelf-summary.css',
 })
 export class ShelfSummary implements OnInit{
-
+  shelfName:string|null=null;
   shelfid:string|null=null;
   updatedShelf:ShelfDefinition=new ShelfDefinition;
   showUpdateForm:Boolean=false;
 
-  constructor(private route:ActivatedRoute,private shelfService:ShelfServices){}
+  constructor(private cdr:ChangeDetectorRef,private route:ActivatedRoute,private shelfService:ShelfServices){}
 
 ngOnInit(){
   this.shelfid=this.route.snapshot.paramMap.get('id');
+  if (this.shelfid) {
+
+    this.shelfService.getShelfById(this.shelfid).subscribe(data => {
+      console.log(data);
+      
+      this.shelfName = data.shelfName; // ✅ now it will display
+
+      this.updatedShelf = data; // optional (prefill form)
+      this.cdr.detectChanges();
+    });
+
+  }
+ 
 }
 
 openUpdateForm() {
